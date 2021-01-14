@@ -1,6 +1,6 @@
 ## warmup_project
 
-! [alt text](https://https://github.com/lnealer/warmup_project/blob/main/drive_square.gif?raw=true)
+![alt text](https://https://github.com/lnealer/warmup_project/blob/main/drive_square.gif?raw=true)
 
 ### Overview
 The drive_square behavior works by setting the bot's linear velocity for a fixed amount of time and then turning 90 degrees four times.
