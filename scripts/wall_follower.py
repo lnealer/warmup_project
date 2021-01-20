@@ -28,7 +28,7 @@ class WallFollow:
 		print(right_dist)
 		if (right_dist < 0.25 and forward_dist< 0.25):
 			#stuck in corner	
-			self.vel_msg.angular.z = 0.15
+			self.vel_msg.angular.z = -0.15
 			self.vel_msg.linear.x =-0.3
 			self.vel_pub.publish(self.vel_msg)
 		elif (right_dist <0.2):
@@ -36,20 +36,24 @@ class WallFollow:
 			self.vel_msg.linear.x = 0.3
 			self.vel_msg.angular.z =  0.1
 			self.vel_pub.publish(self.vel_msg)
+		if (forward_dist<0.2):
+			self.vel_msg.linear.x = -0.3
+			self.vel_pub.publish(self.vel_msg)
 		elif (forward_dist <= 0.65):
 #self.vel_msg.linear.x = 0
 			self.vel_pub.publish(self.vel_msg)
-			self.vel_msg.angular.z = 1.5707963267948966192313216916397514420985846996875529104874722961
+			self.vel_msg.angular.z = 1.5907963267948966192313216916397514420985846996875529104874722961
+#1.5707963267948966192313216916397514420985846996875529104874722961
 			self.vel_pub.publish(self.vel_msg)
-		elif (forward_dist > 0.5):
+		elif (forward_dist > 0.65):
 			#self.vel_msg.angular.z = 0
 			self.vel_msg.linear.x = 0.4
 			self.vel_pub.publish(self.vel_msg)
 			if (right_dist < 0.3):
-				self.vel_msg.angular.z = 0.05
+				self.vel_msg.angular.z = 0.03
 				self.vel_pub.publish(self.vel_msg)
 			elif (right_dist >= 0.3) :
-				self.vel_msg.angular.z = -0.05
+				self.vel_msg.angular.z = -0.03
 				self.vel_pub.publish(self.vel_msg)
 			else:
 				self.vel_msg.angular.z = 0
