@@ -4,12 +4,6 @@ import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
 
-def wait_t_secs(t):
-	dt=0
-	t0 = rospy.Time.now().to_sec() # start time
-	while (dt <= t) :
-		t1 =  rospy.Time.now().to_sec()
-		dt = t1 - t0
 
 class WallFollow:
 	def __init__(self):
@@ -23,42 +17,19 @@ class WallFollow:
 	def process_scan(self,data):
 		forward_dist = data.ranges[0]
 		right_dist = data.ranges[270]
-		print("Dist:")
-		print(forward_dist)
-		print(right_dist)
-		if (right_dist < 0.25 and forward_dist< 0.25):
-			#stuck in corner	
-			self.vel_msg.angular.z = -0.15
-			self.vel_msg.linear.x =-0.3
-			self.vel_pub.publish(self.vel_msg)
-		elif (right_dist <0.2):
-			#stuck on wall
-			self.vel_msg.linear.x = 0.3
-			self.vel_msg.angular.z =  0.1
-			self.vel_pub.publish(self.vel_msg)
 		if (forward_dist<0.2):
 			self.vel_msg.linear.x = -0.3
 			self.vel_pub.publish(self.vel_msg)
-		elif (forward_dist <= 0.65):
-#self.vel_msg.linear.x = 0
+		elif (forward_dist <= 0.9):
 			self.vel_pub.publish(self.vel_msg)
-			self.vel_msg.angular.z = 1.5907963267948966192313216916397514420985846996875529104874722961
-#1.5707963267948966192313216916397514420985846996875529104874722961
+			self.vel_msg.angular.z = 1.5707963267948966192313216916397514420985846996875529104874722961
 			self.vel_pub.publish(self.vel_msg)
-		elif (forward_dist > 0.65):
-			#self.vel_msg.angular.z = 0
+		elif (forward_dist > 0.9):
 			self.vel_msg.linear.x = 0.4
 			self.vel_pub.publish(self.vel_msg)
-			if (right_dist < 0.3):
-				self.vel_msg.angular.z = 0.03
-				self.vel_pub.publish(self.vel_msg)
-			elif (right_dist >= 0.3) :
-				self.vel_msg.angular.z = -0.03
-				self.vel_pub.publish(self.vel_msg)
-			else:
-				self.vel_msg.angular.z = 0
-				self.vel_pub.publish(self.vel_msg)
-				
+			k = 0.1
+			error = 0.5 - right_dist
+			self.vel_msg.angular.z = k * error
 	def run(self):
 		while not rospy.is_shutdown():
 			rospy.spin()
