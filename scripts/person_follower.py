@@ -26,7 +26,6 @@ class PersonFollow:
 			angle = angle - 360
 		error_a = angle * 0.01745329
 		error_d = closest - 0.5
-		print(error_d)
 		k_d = 0.55
 		k_a = 2.3
 		self.vel_msg.linear.x = k_d * error_d
